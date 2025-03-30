@@ -9,7 +9,7 @@ const Page = () => {
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const res = await fetch(`http://localhost:8000/users/`);
+        const res = await fetch(`${apiUrl}users/`);
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
