@@ -1,0 +1,68 @@
+services:
+  web:
+    container_name: frontend
+
+    build: ./frontend
+
+    ports:
+      - 3000:3000
+
+    env_file: "./frontend/.env.local"
+
+    environment:
+      NEXT_PUBLIC_API_URL: http://api:8000/
+
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./package-lock.json
+          action: rebuild
+        - path: ./frontend
+          target: /app
+          action: sync
+
+    depends_on:
+      - api
+
+  api:
+    container_name: backend
+
+    build: ./backend
+
+    ports:
+      - 8000:8000
+
+    env_file: "./backend/.env"
+
+    environment:
+      POSTGRES_HOST: db
+
+    develop:
+      watch:
+        - path: ./requirements.txt
+          action: rebuild
+        - path: ./backend
+          target: /app
+          action: sync
+
+    depends_on:
+      - db
+
+  db:
+    container_name: database
+
+    image: postgres:latest
+
+    env_file:
+      - ./backend/.env
+
+    ports:
+      - 5432:5432
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    name: gym-plus-postgres-volume
