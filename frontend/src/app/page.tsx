@@ -28,8 +28,8 @@ const Page = () => {
 
   return (
     <div>
-      <h1>Users</h1>
-      {/* <div>{JSON.stringify(users, null, 2)}</div> */}
+      <h1>Userssgg</h1>
+      <div>{JSON.stringify(users)}</div>
     </div>
   );
 };
